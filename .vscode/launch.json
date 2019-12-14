@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - jatin",
+            "request": "launch",
+            "mainClass": "jatin",
+            "projectName": "javawork_29e9bfd8"
+        }
+    ]
+}
