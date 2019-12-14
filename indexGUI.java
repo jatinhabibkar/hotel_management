@@ -2,6 +2,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
+
+
+// import javax.swing.JFrame;
+
 /**
  * main
  */
@@ -9,7 +13,7 @@ public class indexGUI {
 
     public static void main(String[] args) {
         eventhai ob =new eventhai();
-
+        
     }
 }
 
@@ -17,8 +21,9 @@ public class indexGUI {
  * event1
  */
 class eventhai extends Frame implements ActionListener,KeyListener{
+    // JFrame frame = new JFrame();
     TextField nametf,foodIdtf,foodnametf,pricetf,TotalPricetf,quantitytf;
-    Button AddBtn,Exitbtn,TotalPricebtn,Printbtn;
+    Button AddBtn,Exitbtn,TotalPricebtn,Resetbtn,billbtn;
     Label nameText,foodId,foodname,priceText,TotalPriceText,quantityText;
     List list1,list2;
     int TotalPricehua=0;
@@ -27,7 +32,7 @@ class eventhai extends Frame implements ActionListener,KeyListener{
     eventhai(){
         
 
-        nameText=new Label("enter numbers            ");
+        nameText=new Label("Enter name               ");
         nametf=new TextField(10);
 
         Exitbtn =new Button("exit application");
@@ -35,30 +40,43 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         foodId=new Label("Enter food id            ");
         foodIdtf=new TextField(10);
 
-        foodname=new Label("enter food name            ");
+        foodname=new Label("Enter food name          ");
         foodnametf=new TextField(10);
 
-        priceText=new Label("enter price              ");
+        priceText=new Label("Enter price              ");
         pricetf=new TextField(10);
 
-        quantityText=new Label("enter quantity           ");
+        quantityText=new Label("Enter quantity           ");
         quantitytf=new TextField("1",10);
 
         AddBtn =new Button("add to list");
         AddBtn.addActionListener(this);
+        AddBtn.setBackground(Color.decode("#343233"));
+        AddBtn.setForeground(Color.decode("#e0c390"));
+        
 
-        Printbtn=new Button("get print");
-        Printbtn.addActionListener(this);
+        Resetbtn=new Button("reset");
+        Resetbtn.setBackground(Color.decode("#343233"));
+        Resetbtn.setForeground(Color.decode("#e0c390"));
+        Resetbtn.addActionListener(this);
 
-        TotalPriceText=new Label("     TotalPrice                    ");
+        billbtn =new Button("get bill");
+        TotalPriceText=new Label("TotalPrice");
         TotalPricetf=new TextField(10);
 
         
 
         TotalPricebtn= new Button("submit");
+        TotalPricebtn.setBackground(Color.decode("#343233"));
+        TotalPricebtn.setForeground(Color.decode("#e0c390"));
         TotalPricebtn.addActionListener(this);
         Exitbtn.addActionListener(this);
+        Exitbtn.setBackground(Color.decode("#343233"));
+        Exitbtn.setForeground(Color.decode("#e0c390"));
         foodIdtf.addKeyListener(this);
+        billbtn.setBackground(Color.decode("#343233"));
+        billbtn.setForeground(Color.decode("#e0c390"));
+        billbtn.addActionListener(this);
 
         list1=new List(20);
         list2=new List(20);
@@ -67,8 +85,17 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         // Exitbtn.addActionListener(this);
         setLayout(new FlowLayout());
         setVisible(true);
-        setSize(400,600);
+        setSize(330,650);
+        // setLocation(null);
+        setTitle("JAVA_break;fast");
 
+        setBackground(Color.decode("#e0c390"));
+        Font font = new Font ("Courier New",0,15);
+        setFont(font);
+        setForeground(Color.decode("#343233"));
+        
+        setResizable(false);
+        TotalPricetf.disable();
         // add
         add(nameText);
         add(nametf);
@@ -86,9 +113,11 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         add(AddBtn);
         add(TotalPriceText);
         add(TotalPricetf);
+        add(billbtn);
         add(TotalPricebtn);
-        add(Printbtn);
+        add(Resetbtn);
         add(Exitbtn);
+
     }
 
 
@@ -99,16 +128,8 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         
 
         if(ae.getSource()==AddBtn){
-            // int fid=Integer.parseInt(foodIdtf.getText());
             String fname=foodnametf.getText();
-            // String fname=db.getname(fid);
-            // System.out.println(fname);
-
             int fprice=Integer.parseInt(pricetf.getText());
-            // int fprice=db.getPrice(fid);
-            // System.out.println(fprice);
-
-            
             int fquantity=Integer.parseInt(quantitytf.getText());
             String theflist=fname;
             String theplist=String.valueOf(fprice)+"*"+String.valueOf(fquantity)+"="+String.valueOf(fprice*fquantity);
@@ -118,7 +139,6 @@ class eventhai extends Frame implements ActionListener,KeyListener{
             foodIdtf.setText("");
             foodnametf.setText("");
             pricetf.setText("");
-            quantitytf.setText("");
         }
 
         if(ae.getSource()==TotalPricebtn){
@@ -138,8 +158,15 @@ class eventhai extends Frame implements ActionListener,KeyListener{
 
         }
 
-        if(ae.getSource()==Printbtn){
-            
+        if(ae.getSource()==Resetbtn){
+            list1.clear();
+            list2.clear();
+            foodIdtf.setText("");
+            foodnametf.setText("");
+            pricetf.setText("");
+            quantitytf.setText("1");
+            nametf.setText("");
+
         }
 
         if(ae.getSource()==Exitbtn){
@@ -149,6 +176,7 @@ class eventhai extends Frame implements ActionListener,KeyListener{
     }
 
     public void keyPressed(KeyEvent ke) {
+
     }
 
     @Override
@@ -159,12 +187,19 @@ class eventhai extends Frame implements ActionListener,KeyListener{
     public void keyReleased(KeyEvent ke) {
         if(ke.getSource() == foodIdtf)
 		{
+        
+            try{
             int fid=Integer.parseInt(foodIdtf.getText());
             System.out.println("Key in Text Field is pressed! And key pressed is: "+ke.getKeyChar());
             String fname=db.getname(fid);
             int fprice=db.getPrice(fid);
             foodnametf.setText(fname);
             pricetf.setText(String.valueOf(fprice));
+            }catch(Exception e){
+                foodnametf.setText("");
+                pricetf.setText("");
+                System.out.println("yo");
+            }
 		}
 
     }
@@ -241,7 +276,9 @@ class dbHelpher {
             System.out.println(e);
         }
         
-    }    
+    }  
+    
+    
 
 
     
