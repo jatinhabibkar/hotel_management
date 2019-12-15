@@ -4,6 +4,7 @@ import java.sql.*;
 
 
 
+
 // import javax.swing.JFrame;
 
 /**
@@ -24,9 +25,15 @@ class eventhai extends Frame implements ActionListener,KeyListener{
     // JFrame frame = new JFrame();
     TextField nametf,foodIdtf,foodnametf,pricetf,TotalPricetf,quantitytf;
     Button AddBtn,Exitbtn,TotalPricebtn,Resetbtn,billbtn;
-    Label nameText,foodId,foodname,priceText,TotalPriceText,quantityText;
+    Label nameText,foodId,foodname,priceText,TotalPriceText,quantityText,line,line1,totalis,totalisval;
     List list1,list2;
     int TotalPricehua=0;
+
+   
+    // bill
+    TextField billhotel,billname, billTotal, billdish, billprice;
+
+
     dbHelpher db=new dbHelpher();
 
     eventhai(){
@@ -49,7 +56,7 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         quantityText=new Label("Enter quantity           ");
         quantitytf=new TextField("1",10);
 
-        AddBtn =new Button("add to list");
+        AddBtn =new Button("                 add to list                ");
         AddBtn.addActionListener(this);
         AddBtn.setBackground(Color.decode("#343233"));
         AddBtn.setForeground(Color.decode("#e0c390"));
@@ -66,10 +73,6 @@ class eventhai extends Frame implements ActionListener,KeyListener{
 
         
 
-        TotalPricebtn= new Button("submit");
-        TotalPricebtn.setBackground(Color.decode("#343233"));
-        TotalPricebtn.setForeground(Color.decode("#e0c390"));
-        TotalPricebtn.addActionListener(this);
         Exitbtn.addActionListener(this);
         Exitbtn.setBackground(Color.decode("#343233"));
         Exitbtn.setForeground(Color.decode("#e0c390"));
@@ -85,7 +88,7 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         // Exitbtn.addActionListener(this);
         setLayout(new FlowLayout());
         setVisible(true);
-        setSize(330,650);
+        setSize(330,690);
         // setLocation(null);
         setTitle("JAVA_break;fast");
 
@@ -108,15 +111,15 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         add(pricetf);
         add(quantityText);
         add(quantitytf);
+        add(AddBtn);
         add(list1);
         add(list2);
-        add(AddBtn);
         add(TotalPriceText);
         add(TotalPricetf);
         add(billbtn);
-        add(TotalPricebtn);
         add(Resetbtn);
         add(Exitbtn);
+        
 
     }
 
@@ -141,22 +144,7 @@ class eventhai extends Frame implements ActionListener,KeyListener{
             pricetf.setText("");
         }
 
-        if(ae.getSource()==TotalPricebtn){
-            
-            String namehai=nametf.getText();
-            String listOfdishes="";
-            TotalPricetf.setText(String.valueOf(TotalPricehua));
-
-            int TotalPrice1=Integer.parseInt(TotalPricetf.getText());
-            for (int i = 0; i < list1.getItemCount(); i++) {
-                listOfdishes+=list1.getItem(i)+"/";
-            }
-            
-            db.addTodb(namehai, listOfdishes, TotalPrice1);
-
-
-
-        }
+     
 
         if(ae.getSource()==Resetbtn){
             list1.clear();
@@ -169,9 +157,80 @@ class eventhai extends Frame implements ActionListener,KeyListener{
 
         }
 
+        if(ae.getSource()==billbtn){
+            //enter in database
+            String namehai=nametf.getText();
+            String listOfdishes="";
+            TotalPricetf.setText(String.valueOf(TotalPricehua));
+
+            int TotalPrice1=Integer.parseInt(TotalPricetf.getText());
+            for (int i = 0; i < list1.getItemCount(); i++) {
+                listOfdishes+=list1.getItem(i)+"/";
+            }
+            
+            db.addTodb(namehai, listOfdishes, TotalPrice1);
+
+
+            //second frame
+            System.out.println(list1);
+            System.out.println(list2);
+            Frame frame1 =new Frame();
+            frame1.setSize(300,400);
+            frame1.setTitle("JAVA_break;fast");
+    
+            frame1.setBackground(Color.decode("#e0c390"));
+            Font font = new Font ("ARIAL",0,15);
+            
+            frame1.setFont(font);
+            frame1.setForeground(Color.decode("#343233"));
+            Label billhotel=new Label("########JAVA_break;fast########");
+            billhotel.setBounds(20,50, 250,40);
+
+            Label billname=new Label("name of the customer  :"+nametf.getText());
+            billname.setBounds(30,80, 400,40);
+
+            Label line=new Label("---------------------------BILL-------------------------------");
+            line.setBounds(0,130, 1000,20);
+
+            Label totalis =new Label("total is :");
+            totalis.setBounds(160,360,70,20);
+
+            Label line1=new Label("----------------------TOTAL_COST-------------------------------");
+            line1.setBounds(0,330, 1000,20);
+
+            Label totalisval =new Label(String.valueOf(TotalPricehua));
+            totalisval.setBounds(230,345,90,50);
+
+
+
+            frame1.add(billhotel);frame1.add(billname);frame1.add(line);frame1.add(totalis);frame1.add(totalisval);frame1.add(line1);
+
+
+
+            for (int i = 0; i < list2.getItemCount(); i++) {
+                    Label listagain1=new Label(list2.getItem(i));
+                    listagain1.setBounds(200,150+(i*30), 300,20);
+                    frame1.add(listagain1);
+            }
+
+            for (int i = 0; i < list1.getItemCount(); i++) {
+                    Label listagain=new Label(list1.getItem(i));
+                    listagain.setBounds(20,150+(i*30), 300,20);
+                    frame1.add(listagain);
+                    
+            }
+            frame1.setResizable(false);
+            frame1.setLayout(null);
+            frame1.setVisible(true); 
+
+        
+        }
+
         if(ae.getSource()==Exitbtn){
             System.exit(0);
         }
+
+
         
     }
 
