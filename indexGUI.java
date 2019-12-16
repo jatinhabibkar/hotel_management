@@ -1,12 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
-
-
-
-
-// import javax.swing.JFrame;
-
 /**
  * main
  */
@@ -121,6 +115,15 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         add(Exitbtn);
         
 
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+               dispose();
+               
+
+             }
+         }
+        );
+
     }
 
 
@@ -158,6 +161,34 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         }
 
         if(ae.getSource()==billbtn){
+
+            if(TotalPricehua==0){
+
+                Frame fr =new Frame();
+                fr.setSize(250,250);
+                fr.setTitle("JAVA_break;fast");
+                fr.setBackground(Color.decode("#e0c390"));
+                Font font = new Font ("ARIAL",0,15);
+                fr.setFont(font);
+                fr.setForeground(Color.decode("#343233"));
+                Label billhotel=new Label("have some break;fast ;)");
+                fr.add(billhotel);
+                billhotel.setBounds(40,130, 250,50);
+                fr.setLayout(null);
+                fr.setVisible(true); 
+
+                fr.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent we) {
+
+                       fr.dispose();
+                    
+                       
+                     }
+                 }
+                );
+
+            }
+            else{
             //enter in database
             String namehai=nametf.getText();
             String listOfdishes="";
@@ -169,20 +200,18 @@ class eventhai extends Frame implements ActionListener,KeyListener{
             }
             
             db.addTodb(namehai, listOfdishes, TotalPrice1);
-
-
             //second frame
             System.out.println(list1);
             System.out.println(list2);
-            Frame frame1 =new Frame();
-            frame1.setSize(300,400);
-            frame1.setTitle("JAVA_break;fast");
+            Frame frame2 =new Frame();
+            frame2.setSize(300,400);
+            frame2.setTitle("JAVA_break;fast");
     
-            frame1.setBackground(Color.decode("#e0c390"));
+            frame2.setBackground(Color.decode("#e0c390"));
             Font font = new Font ("ARIAL",0,15);
             
-            frame1.setFont(font);
-            frame1.setForeground(Color.decode("#343233"));
+            frame2.setFont(font);
+            frame2.setForeground(Color.decode("#343233"));
             Label billhotel=new Label("########JAVA_break;fast########");
             billhotel.setBounds(20,50, 250,40);
 
@@ -203,29 +232,40 @@ class eventhai extends Frame implements ActionListener,KeyListener{
 
 
 
-            frame1.add(billhotel);frame1.add(billname);frame1.add(line);frame1.add(totalis);frame1.add(totalisval);frame1.add(line1);
+            frame2.add(billhotel);frame2.add(billname);frame2.add(line);frame2.add(totalis);frame2.add(totalisval);frame2.add(line1);
 
 
 
             for (int i = 0; i < list2.getItemCount(); i++) {
                     Label listagain1=new Label(list2.getItem(i));
                     listagain1.setBounds(200,150+(i*30), 300,20);
-                    frame1.add(listagain1);
+                    frame2.add(listagain1);
             }
 
             for (int i = 0; i < list1.getItemCount(); i++) {
                     Label listagain=new Label(list1.getItem(i));
                     listagain.setBounds(20,150+(i*30), 300,20);
-                    frame1.add(listagain);
+                    frame2.add(listagain);
                     
             }
-            frame1.setResizable(false);
-            frame1.setLayout(null);
-            frame1.setVisible(true); 
+            frame2.setResizable(false);
+            frame2.setLayout(null);
+            frame2.setVisible(true); 
+
+
+            
+            frame2.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent we) {
+                   frame2.dispose();
+                   TotalPricetf.setText("");
+                   TotalPricehua=0;
+                 }
+             }
+            );
 
         
         }
-
+    }
         if(ae.getSource()==Exitbtn){
             System.exit(0);
         }
