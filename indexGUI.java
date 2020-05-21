@@ -43,8 +43,15 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         foodId=new Label("choose item            ");
         foodIdtf=new TextField(10);
         foodc=new Choice();
-        for(int i=1;i<=10;i++){
-            foodc.add(db.getname(i));
+        foodc.add(" ");
+        for(int i=1;i<=25;i++){
+            try {
+                foodc.add(db.getname(i));
+
+            } catch (Exception e) {
+                break;
+            }
+            
         }
         
 
@@ -137,7 +144,6 @@ class eventhai extends Frame implements ActionListener,KeyListener{
             public void itemStateChanged(ItemEvent ie)
             {
             foodnametf.setText(foodc.getSelectedItem());
-            System.out.println(String.valueOf(db.getPrice(foodc.getSelectedItem()))+"jatin");
             pricetf.setText(String.valueOf(db.getPrice(foodc.getSelectedItem())));
             }
         });
@@ -179,9 +185,10 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         }
 
         if(ae.getSource()==billbtn){
+            setState(Frame.ICONIFIED);
 
             if(TotalPricehua==0){
-
+                setState(Frame.ICONIFIED);
                 Frame fr =new Frame();
                 fr.setSize(250,250);
                 fr.setTitle("JAVA_break;fast");
@@ -197,10 +204,8 @@ class eventhai extends Frame implements ActionListener,KeyListener{
 
                 fr.addWindowListener(new WindowAdapter() {
                     public void windowClosing(WindowEvent we) {
-
+                       setState(Frame.NORMAL);
                        fr.dispose();
-                    
-                       
                      }
                  }
                 );
@@ -274,14 +279,23 @@ class eventhai extends Frame implements ActionListener,KeyListener{
             
             frame2.addWindowListener(new WindowAdapter() {
                 public void windowClosing(WindowEvent we) {
-                   frame2.dispose();
-                   TotalPricetf.setText("");
-                   TotalPricehua=0;
+                    frame2.dispose();
+                    TotalPricetf.setText("");
+                    list1.clear();
+                    list2.clear();
+                    foodIdtf.setText("");
+                    foodnametf.setText("");
+                    pricetf.setText("");
+                    quantitytf.setText("1");
+                    nametf.setText("");
+                    TotalPricetf.setText("");
+                    TotalPricehua=0;
+                    setState(Frame.NORMAL);
                  }
              }
             );
 
-        
+            
         }
     }
         if(ae.getSource()==Exitbtn){
