@@ -22,6 +22,8 @@ class eventhai extends Frame implements ActionListener,KeyListener{
     Label nameText,foodId,foodname,priceText,TotalPriceText,quantityText,line,line1,totalis,totalisval;
     List list1,list2;
     int TotalPricehua=0;
+    Choice foodc;
+
 
    
     // bill
@@ -38,8 +40,13 @@ class eventhai extends Frame implements ActionListener,KeyListener{
 
         Exitbtn =new Button("exit application");
         
-        foodId=new Label("Enter food id            ");
+        foodId=new Label("choose item            ");
         foodIdtf=new TextField(10);
+        foodc=new Choice();
+        for(int i=1;i<=10;i++){
+            foodc.add(db.getname(i));
+        }
+        
 
         foodname=new Label("Enter food name          ");
         foodnametf=new TextField(10);
@@ -70,7 +77,7 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         Exitbtn.addActionListener(this);
         Exitbtn.setBackground(Color.decode("#343233"));
         Exitbtn.setForeground(Color.decode("#e0c390"));
-        foodIdtf.addKeyListener(this);
+        // foodIdtf.addKeyListener(this);
         billbtn.setBackground(Color.decode("#343233"));
         billbtn.setForeground(Color.decode("#e0c390"));
         billbtn.addActionListener(this);
@@ -98,7 +105,8 @@ class eventhai extends Frame implements ActionListener,KeyListener{
         add(nametf);
         add(foodId);
 
-        add(foodIdtf);
+        // add(foodIdtf);
+        add(foodc);
         add(foodname);
         add(foodnametf);
         add(priceText);
@@ -123,6 +131,16 @@ class eventhai extends Frame implements ActionListener,KeyListener{
              }
          }
         );
+
+
+        foodc.addItemListener(new ItemListener(){
+            public void itemStateChanged(ItemEvent ie)
+            {
+            foodnametf.setText(foodc.getSelectedItem());
+            System.out.println(String.valueOf(db.getPrice(foodc.getSelectedItem()))+"jatin");
+            pricetf.setText(String.valueOf(db.getPrice(foodc.getSelectedItem())));
+            }
+        });
 
     }
 
@@ -348,6 +366,26 @@ class dbHelpher {
 
         try {
             String sqlprice="SELECT price FROM `menu` WHERE id="+id;
+            PreparedStatement statement =conn.prepareStatement(sqlprice);
+            ResultSet rs1 =statement.executeQuery();
+            while(rs1.next()){
+                price=rs1.getInt(1);
+            }
+            System.out.println(price);
+            return price;
+        } catch (Exception e) {
+            return 0;
+
+        }
+           
+        
+    }
+
+    public int getPrice(String nameoffood) {
+        int price=0;
+
+        try {
+            String sqlprice="SELECT price FROM `menu` WHERE dishName='"+nameoffood+"'";
             PreparedStatement statement =conn.prepareStatement(sqlprice);
             ResultSet rs1 =statement.executeQuery();
             while(rs1.next()){
