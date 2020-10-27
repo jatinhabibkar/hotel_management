@@ -1,7 +1,7 @@
 # hotel_management
 run below code to view the project 
 
-#### first start XAMPP and import the hotel.sql file in xampp and run below command
+#### first start XAMPP and import the hotel.sql file in xampp and run below commands
 
 clone the repo
 `git clone https://github.com/JATIN2111999/hotel_management.git`
