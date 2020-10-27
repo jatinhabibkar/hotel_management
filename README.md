@@ -10,7 +10,7 @@ compile the project `javac -cp  mysql-connector-java-5.1.48.jar: indexGUI.java`
 
 run the project `java -cp ;-;mysql-connector-java-5.1.48.jar indexGUI`
 
-or just double click in execute.bat file to run both commands if you are on windows
+or just double click on execute.bat file to run both commands if you are on windows
 
 # project screenshot
 <img src="https://github.com/JATIN2111999/hotel_management/blob/master/1.png" width="200"> &nbsp;&nbsp;&nbsp; <img src="https://github.com/JATIN2111999/hotel_management/blob/master/2.png" width="300">
